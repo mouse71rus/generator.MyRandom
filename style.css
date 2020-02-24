@@ -1,0 +1,171 @@
+/*:root {
+    background-color: #2980b9;
+    background: -webkit-linear-gradient(235deg, #71b073 29.9%, #2776aa 80%), -webkit-linear-gradient(146deg, rgba(255, 101, 53, 0.4) 24.9%, #aa2743 91%), -webkit-linear-gradient(80deg, #b1c9d8 19.9%, #2776aa 50%), -webkit-linear-gradient(305deg, #f4df26 15.9%, #ff1b9a 40%);
+    background: linear-gradient(215deg, #71b073 29.9%, #2776aa 80%), linear-gradient(304deg, rgba(255, 101, 53, 0.4) 24.9%, #aa2743 91%), linear-gradient(10deg, #b1c9d8 19.9%, #2776aa 50%), linear-gradient(145deg, #f4df26 15.9%, #ff1b9a 40%);
+    background-repeat: no-repeat;
+    background-blend-mode: hard-light;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    height: 100vh;
+}*/
+body {
+    font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+    /*background: none;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    padding: 2em;*/
+    background-color: #2980b9;
+    background: -webkit-linear-gradient(235deg, #71b073 29.9%, #2776aa 80%), -webkit-linear-gradient(146deg, rgba(255, 101, 53, 0.4) 24.9%, #aa2743 91%), -webkit-linear-gradient(80deg, #b1c9d8 19.9%, #2776aa 50%), -webkit-linear-gradient(305deg, #f4df26 15.9%, #ff1b9a 40%);
+    background: linear-gradient(215deg, #71b073 29.9%, #2776aa 80%), linear-gradient(304deg, rgba(255, 101, 53, 0.4) 24.9%, #aa2743 91%), linear-gradient(10deg, #b1c9d8 19.9%, #2776aa 50%), linear-gradient(145deg, #f4df26 15.9%, #ff1b9a 40%);
+    background-repeat: no-repeat;
+    background-blend-mode: hard-light;
+    min-height: 100vh;
+
+    font-size: 16px;
+
+}
+h1 {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 15vw;
+    font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+    text-align: center;
+    text-shadow: 0.02em 0.02em 0.02em rgba(0, 0, 0, 0.08);
+    filter: drop-shadow(0.045em 0.045em 0.04em rgba(0, 0, 0, 0.21));
+}
+
+.container {
+    min-height: 100%;
+    width: 50%;
+    background: white;
+    margin: 0 auto;
+    overflow: hidden;
+
+    border-radius: 25px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+}
+
+.container .header {
+    width: calc(100% - 30px);
+    height: 150px;
+    overflow: hidden;
+    background: rgba(1, 38, 225, 0.3);
+    padding: 15px;
+}
+
+.container .header .text{
+    
+    text-align: center;
+    font-size: 4em;
+    line-height: 150px; 
+}
+
+.container .main {
+    width: 100%;
+    min-height: calc(100vh - (150px + 130px + 30px + 42px));
+    background: #a8e3ff;
+    overflow: hidden;
+}
+.container .main .row {
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.container .main .row label {
+    margin: 7px 0 0 0;
+    text-align: center;
+    display: block;
+    font-size: 18px;
+}
+.container .generate {
+    font-weight: 700;
+    display: block;
+    background: #00db1d;
+    width: 100%;
+    height: 130px;
+    line-height: 130px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-size: 2.5em;
+    letter-spacing: 2px;
+}
+.container .generate:hover {
+    background: #1dc400;
+    color: #ddd;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+div {
+    display: block;
+}
+
+input[type="text"] {
+    margin-top: 7px;
+    color: #5d5d5d;
+    width: calc(100% - ((8px * 2) + 2px));
+    padding: 8px;
+}
+
+input[type="text"].password {
+    color: #5d5d5d;
+    width: calc(100% - ((8px * 2) + 2px));
+    padding: 8px;
+    font-size: 20px;
+    margin: 0;
+}
+input[type="range"] {
+    color: #5d5d5d;
+    width: 100%;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+table.range {
+    width: 100%;
+    vertical-align: middle;
+}
+
+table.range td {
+    padding: 5px;
+    
+}
+table.range td input[type="text"] {
+    width: 35px;
+    font-size: 20px;
+}
+table.range td.val {
+    font-size: 20px;
+}
+
+.container .main .row .item {
+    text-align: center;
+    display: block;
+    height: 20px;
+    line-height: 20px;
+    background: #00d3ff;
+    width: 100%;
+    padding: 8px;
+    cursor: pointer;
+    border-top-color: rgb(170, 255, 255);
+    border-top-style: solid;
+    border-top-width: 1px;
+    color: azure;
+}
+.container .main .row .item.selected {   
+    background: #0bf;
+}
+.container .main .row .item:hover {   
+    background: #2a78a5;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Генератор паролей">
+    <meta name="keywords" content="Databases, project"><!--Ключевые слова для поисковых систем-->
+    <title>Password generator</title>
+	
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+</head>
+<body>
+    <!-- <h2>Password generator</h2> -->
+    <div class="container">
+        <div class="header">
+            <div class="text">
+                Password generator
+            </div>
+        </div>
+        <div class="main">
+            <div class="row">
+                <label for="chars">Допустимые символы</label>
+                <input id="chars" title="Допустимые символы" type="text" value="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+=" placeholder="Допустимые символы">
+            </div>
+            <div class="row">
+                <label for="count">Количество символов</label>
+                <table class="range">
+                    <tr>
+                        <td class="val">6</td>
+                        <td><input type="range" min="6" max="255" value="6"></td>
+                        <td class="val">255</td>
+                        <td><input type="text" id="count" minlength="1" value="6" maxlength="3" pattern="[0-9]+" required></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row items">
+                <label>Режим</label>
+                <span class="item selected" data-mode="new">Новый пароль</span>
+                <span class="item" data-mode="end">Дописать в конец</span>
+                <span class="item" data-mode="start">Дописать в начало</span>
+                <span class="item" data-mode="on-the-sides">Дописать по краям</span>
+            </div>
+            
+        </div>
+        <input class="password" id="password" type="text" placeholder="Пароль">
+        <a href="#" class="generate">Генерировать</a>
+    </div>
+</body>
+</html>
