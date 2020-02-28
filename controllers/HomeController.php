@@ -68,7 +68,22 @@
 					'message' => "Количество интераций указано в неверном формате"
 				);
 			}
-
+			$lagA = trim($_POST['lagA']);
+			if(!preg_match('/^[0-9]+$/', $lagA))
+			{
+				$errors['errors'][] = array(
+					'error_type' => "errorValidate", 
+					'message' => "LagA указан в неверном формате"
+				);
+			}
+			$lagB = trim($_POST['lagB']);
+			if(!preg_match('/^[0-9]+$/', $lagB))
+			{
+				$errors['errors'][] = array(
+					'error_type' => "errorValidate", 
+					'message' => "LagB указан в неверном формате"
+				);
+			}
 			
 
 			
@@ -153,6 +168,7 @@
 						
 
 						$data['status'] = "ok";
+						$data['data'] = [];
 
 						if(!$unlimited)
 						{
@@ -195,7 +211,77 @@
 						echo json_encode($data);
 						break;
 					case "Fib":
+						$res = intdiv($count, 100);
+						$rnd = null;
 
+						if($seed_auto)
+						{
+							$rnd = new myRandom();
+						}
+						else
+						{
+							$rnd = new myRandom($seed);
+						}
+						$data['status'] = "ok";
+						$data['data'] = [];
+
+
+						if(!$unlimited)
+						{
+							if($__part != 100)
+							{
+								foreach ($rnd->FibGenerate($lagA, $lagB, $res) as $value) 
+								{
+									$data['data'][] = ($left) + $value % $right;
+								}
+							}
+							else
+							{
+								foreach ($rnd->FibGenerate($lagA, $lagB, $res) as $value) 
+								{
+									$data['data'][] = ($left) + $value % $right;
+								}
+
+
+								$ost = $count % 100;
+								$mas = $rnd->FibGenerate($lagA, $lagB, $ost);
+								if(!empty($mas))
+								{
+									foreach ($mas as $value) {
+										$data['data'][] = ($left) + $value % $right;
+									}
+								}
+							}
+						}
+						else
+						{
+							if($__part != 100)
+							{
+								$data['data'] = $rnd->FibGenerate($lagA, $lagB, $res);
+							}
+							else
+							{
+								$data['data'] = $rnd->FibGenerate($lagA, $lagB, $res);
+
+								$ost = $count % 100;
+								$mas = $rnd->FibGenerate($lagA, $lagB, $ost);
+								if(!empty($mas))
+								{
+									foreach ($mas as $value) {
+										$data['data'][] = $value;
+									}
+								}
+							}
+						}
+
+
+						
+
+
+
+						$data['seed'] = $rnd->seed;
+
+						echo json_encode($data);
 						break;
 					case "Pi":
 

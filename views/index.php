@@ -10,6 +10,10 @@
     <link href="/template/css/style.css" rel="stylesheet" type="text/css">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
     <script type="text/javascript" src="/template/js/script.js"></script>
 </head>
 <body>
@@ -48,6 +52,16 @@
             <div class="row">
                 <label for="right">Правая граница</label>
                 <input id="right" title="Правая граница" type="text" value="1000" pattern="[0-9]+" placeholder="Правая граница" disabled>
+            </div>
+
+
+            <div class="row">
+                <label for="lagA">LagA</label>
+                <input id="lagA" title="LagA" type="text" value="55" pattern="[0-9]+" placeholder="LagA" disabled>
+            </div>
+            <div class="row">
+                <label for="lagB">LagB</label>
+                <input id="lagB" title="LagB" type="text" value="24" pattern="[0-9]+" placeholder="LagB" disabled>
             </div>
 
             <div class="row">
@@ -95,6 +109,8 @@
     </div>
     <div style="background: white;">
         <textarea id="sec" style="margin: 15px 15px; height: 100px; resize: vertical; padding: 7px;"></textarea>
+
+        <div id="container"></div>
     </div>
 </body>
 </html>

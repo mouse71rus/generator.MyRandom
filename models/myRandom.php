@@ -51,7 +51,7 @@
 
         public function randRange($min, $max)
         {
-        	return ($min + 1) + rand() % $max;
+        	return ($min) + rand() % $max;
         }
 
         public function rand_01()
@@ -59,11 +59,44 @@
         	return $this->rand() % $this->mask;
         }
 
-        public function FibGenerate($LagA, $LabB, $Count)
+        public function FibGenerate($LagA, $LagB, $Count)
         {
-        	
-        	
-        	return $this->rand() % $this->mask;
+        	if ($Count == 0) 
+        	{
+        		return array();
+        	}
+
+
+        	$arr = array();
+        	$max = $this->max($LagA, $LagB);
+        	for ($i = 0; $i < $max; $i++)
+    		{
+    			$arr[$i] = $this->rand_01();
+    		}
+			$mas = array();
+        	for ($i = 0; $i < $Count; $i++)
+    		{
+    			if ($arr[$max - $LagA] >= $arr[$max - $LagB])
+    			{
+    				$mas[$i] = $arr[$max - $LagA] - $arr[$max - $LagB];
+    			}
+    			else
+    			{
+    				$mas[$i] = $arr[$max - $LagB] - $arr[$max - $LagA];
+    			}
+
+    			for ($j = 0; $j < $max; $j++)
+    			{
+    				$arr[$j] = $this->rand_01();
+    			}
+    		}
+
+        	return $mas;
+        }
+
+        private function max($A, $B)
+        {
+        	return ($A > $B) ? $A : $B;
         }
 	}
 

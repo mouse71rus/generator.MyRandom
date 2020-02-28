@@ -1,3 +1,5 @@
+var chart;
+
 $(document).ready(function ()
 {
 	render();
@@ -101,7 +103,7 @@ function select()
 	$(this).attr("class", "item selected");
 }
 
-function get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, right, unlimited, __part = 1)
+function get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, right, unlimited, lagA, lagB, __part = 1)
 {
 	$("#progress-pie-chart").attr("data-percent", __part);
 
@@ -138,30 +140,34 @@ function get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, ri
     	"right": right, //правая граница
     	"Unlimited": unlimited, //Неограниченый диапазон генерируемых чисел
 
+    	"lagA": lagA, //LagA
+    	"lagB": lagB, //LagB
+
     	"__part": __part //Часть данных
     }, function(data){
 
 
         if(data['status'] == "ok")
         {
-        	
+        	data['data'].forEach(function(item, index){
+        			if(index != 0)
+        			{
+        				$("#sec").val($("#sec").val() + "\n" + item);
+        			}
+                	else
+                	{
+                		$("#sec").val(item);
+                	}
+                	counterFunction.counter.push(item);
+            	});
 
         	if(__part != 100)
         	{
-        		data['data'].forEach(function(item){
-                	//$("#sec").val($("#sec").val() + "\n" + item);
-                	counterFunction.counter.push(item);
-            	});
             	__part++;
-            	get(data['seed'], a, c, m, false, advanced, mod, print_mod, count, left, right, unlimited, __part);
+            	get(data['seed'], a, c, m, false, advanced, mod, print_mod, count, left, right, unlimited, lagA, lagB, __part);
         	}
         	else
         	{
-        		data['data'].forEach(function(item){
-                	//$("#sec").val($("#sec").val() + "\n" + item);
-                	counterFunction.counter.push(item);
-                	
-            	});
             	if(print_mod == "File")
         		{
         			download();
@@ -169,9 +175,132 @@ function get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, ri
         		else
         		{
         			$("#sec").show();
+        			
+        			let sorted = counterFunction.counter.sort();
+        			counterFunction.counter = [];
+					
+        			Categories = Array.from(new Set(sorted));
+        			
+        			let count = [];	
+        			
+        			for (let i = 0; i < Categories.length; i++) 
+        			{
+        				var f = sorted.indexOf(Categories[i]);
+        				var l = sorted.lastIndexOf(Categories[i]);
+    					count[i] = l - f + 1;
+        			}
+
+        			var title = "Количество случайных чисел: " + sorted.length;
+        			var subtitle = "Количество уникальных значений: " + Categories.length;
+        			var methodName = "";
+        			$(".row.items.mod").find(".item.selected").each(function(index)
+        			{
+        				methodName = $(this).text();
+        			});
+
+        			//var resultData = JSON.parse(count);
+
+        			if(chart != null)
+        			{
+    				    chart.update({
+	    				    title: 
+	    				    {
+	    				        text: title
+	    				    },	
+	    				    subtitle: 
+	    				    {
+	    				        text: subtitle
+	    				    },
+	    				    xAxis: 
+	    				    {
+	    				        categories: Categories
+	    				    },
+	    				    series: [{
+	    				    	name: methodName,
+	    				    	data: count
+	    				    }]
+    					});
+        				console.log("createChart: updated");
+        			}
+        			else
+        			{
+	    			    chart = Highcharts.chart('container', {
+	    			       chart: 
+	    			       {
+	    			           type: "spline",
+	    			           spacingTop: 10,
+	    			           spacingRight: 0,
+	    			           spacingBottom: 3,
+	    			           spacingLeft: 0
+	    			       },
+	    			       title: 
+	    			       {
+	    			           text: title
+	    			       },
+	    			       subtitle: 
+	    			       {
+	    			           text: subtitle
+	    			       },
+	    			       xAxis: 
+	    			       {
+	    			           categories: Categories
+	    			       },
+	    			       yAxis: 
+	    			       {
+	    			           title: 
+	    			           {
+	    			               text: "Частота"
+	    			           }
+	    			       },
+	    			       legend: 
+	    			       {
+	    			           layout: "vertical",
+	    			           align: "right",
+	    			           verticalAlign: "middle",
+	    			           borderWidth: 0
+	    			       },
+	    			       series: [{
+	    			       	name: methodName,
+	    			       	data: count
+	    			       }],
+	    			       exporting: {
+	    			 			menuItemDefinitions: {
+	    							downloadPNG: {
+	    			                	text: 'Скачать график в формате .png'
+	    			                },
+	    							downloadPDF: {
+	    			                	text: 'Скачать график в формате .pdf'
+	    			                },
+	    							downloadJPEG: {
+	    			                	text: 'Скачать график в формате .jpeg'
+	    			                },
+	    			                hideLegend: {
+	    			                	text: 'Скрыть легенду',
+	    			                    textKey: "hideLegend",
+	    			                    onclick: hideLegend
+	    			                },
+	    			                showLegend: {
+	    			                	text: 'Показать легенду',
+	    			                    textKey: "hideLegend",
+	    			                    onclick: showLegend
+	    			                },
+
+	    			               },
+	    			               buttons: {
+	    			                   contextButton: {
+	    			                        menuItems: ['hideLegend', 'separator', 'downloadPNG', 'downloadPDF', 'downloadJPEG']
+	    			                   }
+	    			               }
+	    			           }
+	    			    });
+					}
+					console.log("createChart: created");
+        			//console.log(Categories);
+        			//console.log(count);
+
         		}
             	//console.log(counterFunction.counter);
-            	counterFunction.counter = [];
+            	//counterFunction.counter = [];
         	}
         }
         else
@@ -184,6 +313,37 @@ function get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, ri
         
         
     }, 'json');
+}
+function hideLegend()
+{
+    chart.update({	
+		legend: {
+			enabled: false	
+		},
+		exporting: {
+			buttons: {
+			    contextButton: {
+			         menuItems: ['showLegend', 'separator', 'downloadPNG', 'downloadPDF', 'downloadJPEG']
+			    }
+			}
+		}
+	});
+}
+
+function showLegend()
+{
+	chart.update({	
+		legend: {
+			enabled: true	
+		},
+		exporting: {
+			buttons: {
+			    contextButton: {
+			         menuItems: ['hideLegend', 'separator', 'downloadPNG', 'downloadPDF', 'downloadJPEG']
+			    }
+			}
+		}
+	});
 }
 
 function counterFunction() {
@@ -242,8 +402,10 @@ function generate()
 	var right = $("#right").val();
 	var unlimited = $("#unlimited").is(":checked");
 	
+	var lagA = $("#lagA").val();
+	var lagB = $("#lagB").val();
 
-	get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, right, unlimited);
+	get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, right, unlimited, lagA, lagB);
 
 	return false;
 }
