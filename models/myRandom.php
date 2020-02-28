@@ -30,28 +30,24 @@
 			$this->mask = 4294967296;
         }
 
-        public function __construct2($seed)
+        public function setAdvancedSetting($multiplier = 22695477, $addend = 1, $mask = 4294967296)
         {
-            $this->seed = $seed;
-
-            base::__construct();
-
-            /*$this->$multiplier = 22695477;
-			$this->$addend = 1;
-			$this->$mask = PHP_INT_MAX;*/
+        	$this->multiplier = $multiplier;
+			$this->addend = $addend;
+			$this->mask = $mask;
         }
 
         public function rand()
         {
         	$this->seed = ($this->multiplier * $this->seed + $this->addend) % $this->mask;
-
+        	
         	return $this->seed;
         }
 
 
         public function randRange($min, $max)
         {
-        	return ($min) + rand() % $max;
+        	return ($min) + $this->rand() % $max;
         }
 
         public function rand_01()

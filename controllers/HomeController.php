@@ -166,6 +166,10 @@
 							$rnd = new myRandom($seed);
 						}
 						
+						if($advanced)
+						{
+							$rnd->setAdvancedSetting($a, $c, $m);
+						}
 
 						$data['status'] = "ok";
 						$data['data'] = [];
