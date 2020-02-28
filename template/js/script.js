@@ -150,14 +150,15 @@ function get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, ri
         if(data['status'] == "ok")
         {
         	data['data'].forEach(function(item, index){
-        			if(index != 0 && __part != 1)
+        			if(__part == 1 && index == 0)
+        			{
+        				$("#sec").val(item);
+        			}
+        			else
         			{
         				$("#sec").val($("#sec").val() + "\n" + item);
         			}
-                	else
-                	{
-                		$("#sec").val(item);
-                	}
+        			
                 	counterFunction.counter.push(item);
             	});
 
