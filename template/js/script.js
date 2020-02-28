@@ -150,7 +150,7 @@ function get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, ri
         if(data['status'] == "ok")
         {
         	data['data'].forEach(function(item, index){
-        			if(index != 0)
+        			if(index != 0 && __part != 1)
         			{
         				$("#sec").val($("#sec").val() + "\n" + item);
         			}
