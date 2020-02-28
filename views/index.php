@@ -108,7 +108,7 @@
         <a href="#" class="generate">Генерировать</a>
     </div>
     <div style="background: white;">
-        <textarea id="sec" style="margin: 15px 15px; height: 100px; resize: vertical; padding: 7px;"></textarea>
+        <textarea id="sec"></textarea>
 
         <div id="container"></div>
     </div>

@@ -46,6 +46,7 @@ h1 {
     width: 50%;
     background: white;
     margin: 0 auto;
+    margin-bottom: 5px;
     overflow: hidden;
 
     border-radius: 25px;
@@ -173,7 +174,12 @@ table.range td.val {
 
 
 
-
+textarea#sec {
+    margin: 15px 15px; 
+    height: 100px; 
+    resize: vertical; 
+    padding: 7px;
+}
 
 
 
