@@ -176,7 +176,9 @@ function get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, ri
         		{
         			$("#sec").show();
         			
-        			let sorted = counterFunction.counter.sort();
+        			let sorted = counterFunction.counter.sort(function(a, b){
+        				return a - b;
+        			});
         			counterFunction.counter = [];
 					
         			Categories = Array.from(new Set(sorted));
