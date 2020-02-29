@@ -5,8 +5,9 @@
     <meta name="description" content="Генератор">
     <title>Generator</title>
     
+    <link rel="shortcut icon" href="/template/images/icon.png" type="image/png">
+    
     <link rel="stylesheet" href="/template/font-awesome/css/font-awesome.min.css">
-    <link href="/template/css/fa-style.css" rel="stylesheet" type="text/css">
     <link href="/template/css/style.css" rel="stylesheet" type="text/css">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -104,6 +105,10 @@
             </div>
           </div>
         </div>
+
+        <div class="loading" style="display: none;">
+			<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+		</div>
 
         <a href="#" class="generate">Генерировать</a>
     </div>

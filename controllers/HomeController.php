@@ -226,6 +226,12 @@
 						{
 							$rnd = new myRandom($seed);
 						}
+
+						if($advanced)
+						{
+							$rnd->setAdvancedSetting($a, $c, $m);
+						}
+
 						$data['status'] = "ok";
 						$data['data'] = [];
 
@@ -288,7 +294,30 @@
 						echo json_encode($data);
 						break;
 					case "Pi":
+						$res = intdiv($count, 100);
+						$rnd = null;
 
+						if($seed_auto)
+						{
+							$rnd = new myRandom();
+						}
+						else
+						{
+							$rnd = new myRandom($seed);
+						}
+
+						if($advanced)
+						{
+							$rnd->setAdvancedSetting($a, $c, $m);
+						}
+
+						$data['status'] = "ok";
+
+						$data['Pi'] = $rnd->getPI($count);
+
+
+
+						echo json_encode($data);
 						break;
 					default:
 						break;

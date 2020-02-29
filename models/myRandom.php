@@ -52,7 +52,8 @@
 
         public function rand_01()
         {
-        	return $this->rand() % $this->mask;
+        	$a = $this->rand();
+        	return ($a / $this->mask) - intval($a / $this->mask);
         }
 
         public function FibGenerate($LagA, $LagB, $Count)
@@ -93,6 +94,30 @@
         private function max($A, $B)
         {
         	return ($A > $B) ? $A : $B;
+        }
+
+        public function getPI($count)
+        {
+        	$kol = 0;
+        	for ($i = 0; $i < $count; $i++)
+    		{
+    			$x = $this->rand_01();
+    			$y = $this->rand_01();
+
+    			if($this->insideCircle($x, $y))
+    				$kol++;
+    		}
+
+    		return 4 * ($kol / $count);
+        }
+
+        private function insideCircle($x, $y)
+        {
+        	$radius = 0.5;
+        	$circle_X = 0.5;
+        	$circle_Y = 0.5;
+
+        	return $radius > sqrt((($circle_X - $x) ** 2) + (($circle_Y - $y) ** 2));
         }
 	}
 

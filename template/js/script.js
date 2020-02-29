@@ -101,7 +101,110 @@ function select()
 	});
 	
 	$(this).attr("class", "item selected");
+
+	if($(this).attr("data-mode") == "Line")
+	{
+		$("#unlimited").prop('disabled', false);
+		if($("#unlimited").is(':checked') == false)
+		{
+			$("#right").prop('disabled', false);
+			$("#left").prop('disabled', false);
+		}
+	}
+	else
+	{
+		$("#unlimited").prop('disabled', true);
+		$("#right").prop('disabled', true);
+		$("#left").prop('disabled', true);
+	}
+
+	if($(this).attr("data-mode") == "Fib")
+	{
+		$("#lagA").prop('disabled', false);
+		$("#lagB").prop('disabled', false);
+
+		
+	}
+	else
+	{
+		$("#lagA").prop('disabled', true);
+		$("#lagB").prop('disabled', true);
+
+		
+	}
 }
+
+function getPI(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, right, unlimited, lagA, lagB, __part = 1)
+{
+	$(".loading").show();
+
+    $.post("/ajax/rand", { 
+    	"seed": seed, //начальное значение
+    	"multiplier": a, //множитель a
+    	"addend": c, //приращение c
+    	"mask": m, //модуль m
+
+    	"seed_auto": seed_auto, //Формировать "начальное значение"" автоматически
+    	"advanced": advanced, //Задать "множитель a", "приращение c", "модуль m" вручную
+
+    	"mod": mod, //Счетчик
+    	"print_mod": print_mod, //Способ вывода
+
+    	"count": count, //количество интераций
+
+    	"left": left, //левая граница
+    	"right": right, //правая граница
+    	"Unlimited": unlimited, //Неограниченый диапазон генерируемых чисел
+
+    	"lagA": lagA, //LagA
+    	"lagB": lagB, //LagB
+
+    	"__part": __part //Часть данных
+    }, function(data){
+
+
+        if(data['status'] == "ok")
+        {
+        	$(".loading").hide();
+        	if(print_mod == "File")
+    		{
+    			var downloadURL = function(url, name) {
+				    var link = document.createElement('a');
+				    if(name == undefined || name == ''){name = url};
+				    link.setAttribute('href',url);
+				    link.setAttribute('download',name);
+					onload = link.click();
+				};
+
+			    downloadURL('data:text/plain;charset=UTF-8,' + data['Pi'], "Число Пи.txt");
+
+			    $("#sec").val("");
+    		}
+    		else
+    		{
+    			$("#sec").val(data['Pi']);
+    			$("#sec").show();
+
+    			if(chart != null)
+    			{
+				    chart.destroy();
+    				console.log("Chart: destroy");
+    			}
+    		}
+        	
+        }
+        else
+        {
+        	console.log(data);
+            data['errors'].forEach(function(item){
+                alert("Операция отменена: " + item['message']);
+            });
+        }
+        
+        
+    }, 'json');
+}
+
 
 function get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, right, unlimited, lagA, lagB, __part = 1)
 {
@@ -223,7 +326,7 @@ function get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, ri
 	    				    	data: count
 	    				    }]
     					});
-        				console.log("createChart: updated");
+        				console.log("Chart: updated");
         			}
         			else
         			{
@@ -296,8 +399,9 @@ function get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, ri
 	    			               }
 	    			           }
 	    			    });
+	    			    console.log("Chart: created");
 					}
-					console.log("createChart: created");
+					
         			//console.log(Categories);
         			//console.log(count);
 
@@ -359,8 +463,6 @@ function counterFunction() {
 
 function generate()
 {
-	$("#progress-pie-chart").show();
-
 	var seed = $("#seed").val();
 	var a = $("#multiplier").val();
 	var c = $("#addend").val();
@@ -373,21 +475,13 @@ function generate()
 	var mod = $(".items.mod").find(".item[class='item selected']").attr("data-mode");
 
 	var print_mod = $(".items.print_mod").find(".item[class='item selected']").attr("data-mode");
-	//var pas = $("#password").val();
 
-	switch(mod)
-	{
-		case "Line":
-			break;
-		case "Fib":
-			break;
-		case "Pi":
-			break;
-		default:
-			alert("Неверный формат запроса.");
-			return false;
-			break;
-	}
+	var left = $("#left").val();
+	var right = $("#right").val();
+	var unlimited = $("#unlimited").is(":checked");
+	
+	var lagA = $("#lagA").val();
+	var lagB = $("#lagB").val();
 
 	switch(print_mod)
 	{
@@ -400,15 +494,27 @@ function generate()
 			return false;
 			break;
 	}
-	
-	var left = $("#left").val();
-	var right = $("#right").val();
-	var unlimited = $("#unlimited").is(":checked");
-	
-	var lagA = $("#lagA").val();
-	var lagB = $("#lagB").val();
-
-	get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, right, unlimited, lagA, lagB);
+	switch(mod)
+	{
+		case "Line":
+			$("#progress-pie-chart").show();
+			$("#sec").hide();
+			get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, right, unlimited, lagA, lagB);
+			break;
+		case "Fib":
+			$("#progress-pie-chart").show();
+			$("#sec").hide();
+			get(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, right, unlimited, lagA, lagB);
+			break;
+		case "Pi":
+			$("#progress-pie-chart").hide();
+			getPI(seed, a, c, m, seed_auto, advanced, mod, print_mod, count, left, right, unlimited, lagA, lagB);
+			break;
+		default:
+			alert("Неверный формат запроса.");
+			return false;
+			break;
+	}
 
 	return false;
 }
@@ -431,4 +537,9 @@ function download()
     downloadURL('data:text/plain;charset=UTF-8,' + str, $("#count").val() + " случайных чисел.txt");
 
     $("#sec").val("");
+}
+
+function deleteLoadingIcon()
+{
+	$(".loading").hide();
 }
